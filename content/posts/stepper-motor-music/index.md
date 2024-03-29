@@ -15,18 +15,20 @@ For this project, I've programmed an array of stepper motors to play music from 
 
 &nbsp;
 
-{{< youtube zvBWZfuA >}}
+{{< youtube 8F_zvBWZfuA >}}
+
+&nbsp;
 
 ## What is a stepper motor?
-A stepper motor is an electrical motor that rotates in a series of discrete steps rather than continuously. Like all other electric motors, it is made up of a stationary part (stator) and a rotating part (rotor).
+A stepper motor is an electrical motor that rotates in a series of discrete steps. Like all other electric motors, it is made up of a stationary part (stator) and a rotating part (rotor).
 
 The stator consists of several coils of wire (electromagnets) that are organized in groups called phases, with one phase consisting of two opposite coils. The rotor (rotating part) has a magnet within it that will align with these phases. By energizing each phase in sequence, the motor will rotate.
 
-{{< figure src="./_img_cross-sectional-stepper-motor.png" height=300 caption="Cross-section of a stepper motor." >}}
+{{< figure src="./_img_cross-sectional-stepper-motor.png" height=300 caption="Cross-section of a stepper motor. ([EEPower](https://eepower.com/new-industry-products/motor-driver-ics-reduce-board-space-component-count-in-50-v-apps/#))" >}}
 
-{{< figure src="./_diagram_stepper.png" height=300 caption="Diagram of a stepper motor." >}}
+{{< figure src="./_diagram_stepper.png" height=300 caption="Diagram of a stepper motor. ([Monolithic Power](https://www.monolithicpower.com/en/stepper-motors-basics-types-uses))" >}}
 
-{{< figure src="./_diagram_stepper-stepping.png" caption="The rotor aligning to different phases. This stepper has three phases." >}}
+{{< figure src="./_diagram_stepper-stepping.png" caption="The rotor aligning to different phases. This stepper has three phases. ([Monolithic Power](https://www.monolithicpower.com/en/stepper-motors-basics-types-uses))" >}}
 
 ## Why do stepper motors make noise when they rotate?
 To be honest, I'm not really sure. I keep coming up with different answers that all sound solid every time I look, so here are all of the answers I found.
@@ -34,20 +36,20 @@ To be honest, I'm not really sure. I keep coming up with different answers that 
 ### 1. Mechanical
 When the next phase is activated, it takes time for the rotor to perfectly align. The graph below shows how the position of the rotor oscillates around the target point until it finally settles. This vibration in the rotor can be audible.
 
-{{< figure src="./_img_single_step_ringing.webp" caption="Ringing after a single full step advance." >}}
+{{< figure src="./_img_single_step_ringing.webp" caption="Ringing after a single full step advance. ([PMD Corp](https://www.pmdcorp.com/resources/type/articles/step-motor-noise-and-how-to-fix))" >}}
 
 ### 2. Electrical
-Another reason is the large number of electrical cycles per mechanical rotation. Just moving the rotor forwards or backwards requires the controller to constantly cycle the command voltages up and down for each phase, which induces noise in the coils and therefore the motor.
+Another reason is the large number of electrical cycles per mechanical rotation. Just moving the rotor forwards or backwards requires the controller to constantly cycle the command voltages up and down for each phase, which induces noise in the coils and therefore the motor. ([PMD Corp](https://www.pmdcorp.com/resources/type/articles/step-motor-noise-and-how-to-fix))
 
 ### 3. Magnetic
-Magnetostriction is a property of magnetic materials that causes them to change their shape or dimensions during magnetization. In a stepper motor, magnetostriction pulls the rotor and stator teeth toward each other, causing audible noise. This is the same principle that causes transformers to make that low-pitched humming sound, where alternating currents produce a changing magnetic field.
+Magnetostriction is a property of ferromagnetic materials causing them to expand or contract under the influence of a magnetic field. This is principle causes transformers to make that low-pitched humming sound, as the alternating currents within the transformer produce a changing magnetic field. In a stepper motor, magnetostriction pulls the rotor and stator teeth toward each other, causing audible noise.
 
 ## Playing notes with the stepper motors
 I used [Nema 17 stepper motors](https://www.amazon.com/Stepper-Motor-Bipolar-64oz-Printer/dp/B00PNEQI7W) with [A4988](https://www.amazon.com/dp/B07BND65C8?ref=nb_sb_ss_w_as-reorder-t1_k1_1_5&amp=&crid=11NV3J54TX0P5&amp=&sprefix=a4988) stepper driver boards. The driver boards let me control the stepper motor with a PWM signal from just one pin on the ESP32. This was very nice - prior to getting the driver boards, I was connecting the four pins of the stepper motor to the ESP32 directly and controlling each pin within a full step drive state machine. It sucked. (And I ran out of pins really fast.)
 
 To play a note with a stepper motor, you adjust the frequency of the PWM signal to match the note you want. (The duty cycle of the signal doesn't matter.) Below are all the frequencies corresponding to each note.
 
-![Note frequency chart in Hz.](./note_frequency_chart.jpg)
+{{< figure src="./_img_note_frequency_chart.png" height=300 caption="Note frequency chart. ([Poly-Ed](https://www.poly-ed.com/source-code/note-frequency-chart/))" >}}
 
 The main part of this project is generating multiple stable PWM signals with the ESP32. Here's a quick summary of what my options were:
 
@@ -102,3 +104,8 @@ while events remaining:
 
 ## Conclusion
 This was a very fun project that I hope to extend in the future!
+
+---
+
+# Sources
+- [EEPower](https://eepower.com/new-industry-products/motor-driver-ics-reduce-board-space-component-count-in-50-v-apps/#)
