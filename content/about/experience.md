@@ -6,7 +6,8 @@ weight: 2
 # <u>Experience</u>
 ### Supernal
 **Software Engineer, Energy Storage Systems** (November 2023 - Present)
-- Developed script to autogenerate diagnostic fault detection software and unit tests for 3000+ faults
+- Developed script to autogenerate diagnostic fault detection C code and gtest unit tests for 3000+ faults
+- Created Python script to parse hierarchical state machine definition in an Excel file and autogenerate its implementation in C
 
 ### Maxar Technologies
 **Ground Software Engineer Intern** (June - December 2020; June - August 2021)
