@@ -104,8 +104,3 @@ while events remaining:
 
 ## Conclusion
 This was a very fun project that I hope to extend in the future!
-
----
-
-# Sources
-- [EEPower](https://eepower.com/new-industry-products/motor-driver-ics-reduce-board-space-component-count-in-50-v-apps/#)
