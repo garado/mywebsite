@@ -2,22 +2,28 @@
   identifier = "github"
   name = "Github"
   url = "https://github.com/garado"
-  weight = 1
+  weight = 10
 
 [[navbar]]
   identifier = "linkedin"
   name = "LinkedIn"
   url = "https://linkedin.com/in/garado"
-  weight = 2
+  weight = 20
 
 [[navbar]]
   identifier = "posts"
   name = "Posts"
   url = "/posts"
-  weight = 2
+  weight = 30
 
 [[navbar]]
   identifier = "now"
   name = "Now"
   url = "/now"
-  weight = 3
+  weight = 40
+
+[[navbar]]
+  identifier = "outside"
+  name = "Outside"
+  url = "/outside"
+  weight = 50
