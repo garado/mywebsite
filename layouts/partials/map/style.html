@@ -1,0 +1,13 @@
+
+{{ range slice "leaflet/*.css" "font-awesome/css/*.min.css" "leaflet.awesome-markers/*.css" "izmir/*.css" }}
+{{ with resources.GetMatch (printf "/vendor/%s" .) }}<link rel="stylesheet" href="{{ .Permalink }}"/>{{ end }}
+{{ end }}
+
+<!-- Hack to include fonts & images -->
+{{ range resources.Match "/vendor/font-awesome/fonts/*" }}<!-- {{ .Permalink }} -->{{ end }}
+{{ range resources.Match "/vendor/leaflet/images/*" }}<!-- {{ .Permalink }} -->{{ end }}
+{{ range resources.Match "/vendor/leaflet.awesome-markers/images/*" }}<!-- {{ .Permalink }} -->{{ end }}
+
+{{ range .Site.Params.customCss }}
+<link rel="stylesheet" href="{{ relURL (.) }}"/>
+{{ end }}

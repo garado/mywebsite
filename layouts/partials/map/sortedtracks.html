@@ -1,0 +1,8 @@
+{{ $page := . }}
+{{ $tracks := slice }}
+
+{{ $tracks = $tracks | append ($page.Resources.Match "*.gpx") }}
+{{ $tracks = $tracks | append ($page.Resources.Match "*.kml") }}
+{{ $tracks = $tracks | append ($page.Resources.Match "*.geojson") }}
+
+{{ return sort $tracks "Name" "asc" }}

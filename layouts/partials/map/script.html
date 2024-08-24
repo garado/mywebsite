@@ -1,0 +1,20 @@
+{{ range slice "bootstrap/*.js" "jquery/*.js" "fancybox/*.js" "leaflet/*.js" "togeojson/*.js" "leaflet.awesome-markers/*.min.js" }}
+{{ $secureJS := resources.GetMatch (printf "/vendor/%s" .) | resources.Fingerprint "sha512" }}
+<script src="{{ $secureJS.Permalink }}" type="text/javascript" integrity="{{ $secureJS.Data.Integrity }}"></script>
+{{ end }}
+
+{{ if (default false ($.Site.Params.enableDownloadAll)) }}
+{{ range slice "jszip/*.js" "jszip-utils/*.js" "file-saver/*.js" }}
+{{ $secureJS := resources.GetMatch (printf "/vendor/%s" .) | resources.Fingerprint "sha512" }}
+<script src="{{ $secureJS.Permalink }}" type="text/javascript" integrity="{{ $secureJS.Data.Integrity }}"></script>
+{{ end }}
+{{ end }}
+
+{{ with resources.GetMatch "/tmuguet-map/map.js" }}<script src="{{ .Permalink }}"></script>{{ end }}
+{{ if (default false ($.Site.Params.enableDownloadAll)) }}
+{{ with resources.GetMatch "/tmuguet-map/zip.js" }}<script src="{{ .Permalink }}"></script>{{ end }}
+{{ end }}
+
+{{ range .Site.Params.customJs }}
+<script src="{{ relURL (.) }}"></script>
+{{ end }}

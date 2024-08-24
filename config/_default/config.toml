@@ -1,11 +1,12 @@
 baseURL = "https://garado.dev"
 languageCode = "en"
 title = "Alexis Garado"
-theme = "monochrome"
+theme = ["monochrome",  "hugo-shortcode-gallery"]
 defaultContentLanguage = "en"
 enableEmoji = true
 paginate = 5
 enableGitInfo = true
+map2gpx = "en"
 
 [taxonomies]
 category = "categories"

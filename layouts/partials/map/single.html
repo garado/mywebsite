@@ -1,0 +1,68 @@
+{{ $tracks := partial "map/sortedtracks.html" . }}
+{{ $hasTracks := gt (len ($tracks)) 0 }}
+{{ $hasGeotaggedPhotos := false }}
+{{ $images := partial "map/sortedimages.html" . }}
+{{ range $images }}
+  {{ with .Exif }}
+    {{ if and (.Lat) (.Long) }}
+      {{ $hasGeotaggedPhotos = true }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ if or $hasTracks $hasGeotaggedPhotos }}
+  {{ $map2gpx := (default "en" ($.Site.Params.map2gpx)) }}
+  {{ $domain := "map2gpx.eu" }}
+
+  <div id="mapid" style="width: 100%; height: 50vh;" class="mb-1"></div>
+  {{ $page := . }}
+  {{ $tracks := partial "map/sortedtracks.html" . }}
+  {{ range $tracks }}
+    {{ $p :=  false }}
+    {{ if eq (path.Ext .Name) ".gpx" }}
+      {{ $p = resources.GetMatch "/tmuguet-map/gpx.js" | resources.ExecuteAsTemplate (printf "%s/%s.js" $page.File.Dir .Name) . }}
+    {{ else if eq (path.Ext .Name) ".kml" }}
+      {{ $p = resources.GetMatch "/tmuguet-map/kml.js" | resources.ExecuteAsTemplate (printf "%s/%s.js" $page.File.Dir .Name) . }}
+      {{ else if eq (path.Ext .Name) ".geojson" }}
+      {{ $p = resources.GetMatch "/tmuguet-map/geojson.js" | resources.ExecuteAsTemplate (printf "%s/%s.js" $page.File.Dir .Name) . }}
+    {{ else }}
+      {{ warnf "Unsupported type %q" .Name }}
+    {{ end }}
+    <script src="{{ $p.Permalink }}"></script>
+  {{ end }}
+  <script>
+    $(document).ready(function() {
+      initMap();
+      var tracks = [];
+      var markers = [];
+
+      {{ range $tracks }}
+        {{ $varname := md5 .Content }}
+        var desc_{{ printf "track_%s" $varname | safeJS }} = '<strong>{{ .Name }}</strong><br>'
+          + '<a href="{{ .Permalink }}"><i class="fa fa-map-signs fa-fw"></i> {{ i18n "downloadGPXfile" }}</a><br>'
+          {{ if $map2gpx }}
+          + '<a href="https://{{ $domain }}?{{ querify "url" .Permalink | safeURL }}"><i class="fa fa-map fa-fw"></i> {{ i18n "openGPXinmap2gpx" }}</a>'
+          {{ end }};
+
+        tracks.push([
+          {{ printf "track_%s" $varname | safeJS }},
+          desc_{{ printf "track_%s" $varname | safeJS }},
+        ]);
+      {{ end }}
+
+      {{ range $index, $element := partial "map/sortedimages.html" . }}
+        {{ with $element.Exif }}
+          {{ if and .Lat .Long }}
+            markers.push([
+              L.latLng({{ .Lat }}, {{ .Long }}),
+              {{ $index }},
+            ]);
+          {{ end }}
+        {{ end }}
+      {{ end }}
+
+      add(tracks, markers);
+      finalizeMap();
+    });
+  </script>
+{{ end }}

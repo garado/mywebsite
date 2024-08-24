@@ -1,0 +1,25 @@
+{{ $page := false }}
+{{ if eq .Kind "page" }}
+    {{ $page = . }}
+{{ else if eq .Kind "term" }}
+    {{ $page = index .Pages 0 }}
+{{ else if eq .Kind "taxonomy" }}
+    {{ with index (sort .Pages "Title") 0 }}
+        {{ $page = index .Pages 0 }}
+    {{ end }}
+{{ else if eq .Kind "section" }}
+    {{ $page = index .Pages 0 }}
+{{ else if eq .Kind "home" }}
+    {{ $page = index (where .Site.RegularPages "Section" "!=" "") 0 }}
+{{ end }}
+
+{{ if not $page }}
+    {{ $page = index site.RegularPages 0 }}
+{{ end }}
+
+{{ if not $page }}
+    {{ $page = index .Sites.First.RegularPages 0 }}
+    {{ warnf "Could not find leaf page for %s (%s), defaulting to %s" .RelPermalink .Kind $page }}
+{{ end }}
+
+{{ return $page }}

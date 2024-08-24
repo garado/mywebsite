@@ -1,0 +1,86 @@
+
+{{ $leafpages := partial "map/getleafpages.html" . }}
+
+{{ $hasTracks := false }}
+{{ $hasGeotaggedPhotos := false }}
+{{ range $leafpages }}
+  {{ $tracks := partial "map/sortedtracks.html" . }}
+  {{ if gt (len $tracks) 0 }}
+    {{ $hasTracks = true }}
+  {{ end }}
+  {{ $images := partial "map/sortedimages.html" . }}
+  {{ range $images }}
+    {{ with .Exif }}
+      {{ if and (.Lat) (.Long) }}
+        {{ $hasGeotaggedPhotos = true }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ if or $hasTracks $hasGeotaggedPhotos }}
+<div id="mapid" style="width: 100%; height: 50vh;" class="mb-2"></div>
+{{ range $index, $page := $leafpages }}
+  {{ $tracks := partial "map/sortedtracks.html" $page }}
+  {{ range $tracks }}
+    {{ $p :=  false }}
+    {{ if eq (path.Ext .Name) ".gpx" }}
+      {{ $p = resources.GetMatch "/tmuguet-map/gpx.js" | resources.ExecuteAsTemplate (printf "%s/%s.js" $page.File.Dir .Name) . }}
+    {{ else if eq (path.Ext .Name) ".kml" }}
+      {{ $p = resources.GetMatch "/tmuguet-map/kml.js" | resources.ExecuteAsTemplate (printf "%s/%s.js" $page.File.Dir .Name) . }}
+      {{ else if eq (path.Ext .Name) ".geojson" }}
+      {{ $p = resources.GetMatch "/tmuguet-map/geojson.js" | resources.ExecuteAsTemplate (printf "%s/%s.js" $page.File.Dir .Name) . }}
+    {{ else }}
+      {{ warnf "Unsupported type %q" .Name }}
+    {{ end }}
+    <script src="{{ $p.Permalink }}"></script>
+  {{ end }}
+{{ end }}
+<script>
+$(document).ready(function() {
+initMap();
+
+{{ range $index, $page := $leafpages }}
+  {{ $tracks := partial "map/sortedtracks.html" $page }}
+  {{ $images := partial "map/sortedimages.html" $page }}
+  function {{ printf "load_%d" $index | safeJS }} () {
+    var tracks = [];
+    var markers = [];
+    var latlngs = [];
+
+    {{ range $tracks }}
+      tracks.push([
+        {{ printf "track_%s" (md5 .Content) | safeJS }},
+        '<strong><a href="{{ $page.Permalink }}">{{ $page.Title }}</a></strong>',
+      ]);
+    {{ end }}
+
+    {{ range $images }}
+      {{ with .Exif }}
+        {{ if and .Lat .Long }}
+          latlngs.push(L.latLng({{ .Lat }}, {{ .Long }}));
+        {{ end }}
+      {{ end }}
+    {{ end }}
+
+    if (latlngs.length > 0) {
+      var pagebounds = L.latLngBounds(latlngs);
+      addBounds(pagebounds);
+      if (tracks.length === 0) {
+        markers.push([
+          pagebounds.getCenter(),
+          {{ $index }},
+          '<strong><a href="{{ $page.Permalink }}">{{ $page.Title }}</a></strong>',
+        ]);
+      }
+    }
+
+    add(tracks, markers, {{ $index }});
+  }
+
+  {{ printf "load_%d" $index | safeJS }}();
+{{ end }}
+finalizeMap();
+});
+</script>
+{{ end }}

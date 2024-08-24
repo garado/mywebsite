@@ -1,0 +1,62 @@
+{{ define "gallery" }}
+{{ $featured_image := partial "featureimage/bg.html" . }}
+{{ $includeOriginalImage := default true (.Param "includeOriginalImage") }}
+{{ $largeImageSize := default "2000x" (.Param "largeImageSize") }}
+{{ $images := partial "map/sortedimages.html" . }}
+
+{{ if (default false ($.Site.Params.enableDownloadAll)) }}
+<script>
+$(document).ready(function () {
+{{ range $images }}
+  {{ if $includeOriginalImage }}
+    addzipfile("{{ .Permalink | safeURL }}");
+  {{ else }}
+    {{ $large := .Resize $largeImageSize }}
+    addzipfile("{{ $large.Permalink | safeURL }}");
+  {{ end }}
+{{ end }}
+});
+</script>
+{{ end }}
+
+<div class="col-lg-6 p-0" id="gallery-panel" style="background-image: url('{{ $featured_image }}');">
+  <div class="container-fluid h-100 p-0">
+    <div class="row h-100 p-0">
+      <div class="col my-auto p-0">
+        <ul class="split-grid list-unstyled">
+          {{ range $images }}
+            {{ $linkToThumbnail := partial "image-processing/thumbnail.html" . }}
+            {{ $large := .Resize $largeImageSize }}
+            {{ if $includeOriginalImage }}
+              <li><a href="{{ .Permalink }}"
+                  data-srcset="{{ .Permalink }} {{ .Width }}w, {{ $large.Permalink }} {{ $large.Width }}w"
+                  data-fancybox="gallery"><img src="{{ $linkToThumbnail }}" /></a></li>
+            {{ else }}
+              <li><a href="{{ $large.Permalink }}"
+                  data-srcset="{{ $large.Permalink }} {{ $large.Width }}w"
+                  data-fancybox="gallery"><img src="{{ $linkToThumbnail }}" /></a></li>
+            {{ end }}
+          {{ end }}
+        <li></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{{ end }}
+
+{{- define "content" -}}
+
+{{ if and (ne .TableOfContents "<nav id=\"TableOfContents\"></nav>") (.Scratch.Get "params").enable_toc }}
+    {{ $enable_collapsible_toc := (.Scratch.Get "params").enable_collapsible_toc }}
+    {{ partial "collapsible-menu.html" (dict "type" "toc" "context" . "enable" $enable_collapsible_toc) }}
+{{ end }}
+
+{{ if .Content }}
+    <div class="content-margin">
+        {{- partial "content.html" (dict "ctx" . "content" .Content) -}}
+    </div>
+{{ end }}
+
+{{ partial "map/single.html" . }}
+{{ end }}

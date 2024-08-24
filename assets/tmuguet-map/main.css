@@ -1,0 +1,121 @@
+#gallery-panel {
+  overflow-y: hidden;
+  overflow-x: hidden; /* Hide panoramic photos that are too wide */
+  background-position: center center;
+  background-size: cover;
+}
+@media (min-width: 992px) {
+  #gallery-panel {
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden; /* Hide panoramic photos that are too wide */
+  }
+}
+
+@media (min-width: 992px) {
+  #content-panel {
+    height: 100vh;
+    overflow: auto;
+  }
+}
+  
+.vertical-align-center {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+#site-title img {
+  margin-right: 0.5rem;
+}
+
+ul, ol {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+ul.split-grid {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: auto;
+  margin-bottom: auto;
+  max-width: 100%;
+  height: 100%;
+}
+.split-grid li {
+  height: 100px;
+  flex-grow: 1;
+  text-align: center;
+}
+.split-grid li:last-child {
+  flex-grow: 10;
+}
+.split-grid li a {
+  height: 100%;
+  width: 100%;
+}
+.split-grid li a img {
+  max-height: 100%;
+  min-width: 100%;
+  object-fit: cover;
+  vertical-align: bottom;
+}
+.split-grid h3 {
+  font-size: 14px;
+  line-height: normal;
+}
+
+.btn.btn-link {
+  text-align: left;
+  font-weight: inherit;
+  font-size: inherit;
+  vertical-align: text-top;
+  padding: 0px;
+}
+
+a,
+button.btn {
+  border-style: none;
+  box-shadow: none;
+}
+
+.c4-izmir {
+  --overlay-opacity: .6;
+  --padding: 0;
+  --border-radius: 0;
+  --border-width: 0;
+}
+
+#menu-main i.fa {
+  margin-right: 0.25rem;
+  font-size: smaller;
+}
+
+#menu-prevnext i.fa.prev {
+  margin-right: 0.25rem;
+  font-size: smaller;
+}
+#menu-prevnext i.fa.next {
+  margin-left: 0.25rem;
+  font-size: smaller;
+}
+
+.container h1 i.fa {
+  margin-right: 0.5rem;
+  font-size: smaller;
+}
+
+.split-lists h3 i.fa {
+  margin-right: 0.25rem;
+  font-size: smaller;
+}
+
+.split-lists i.fa {
+  margin-right: 0.15rem;
+  font-size: smaller;
+}
+
+.split-footnote i.fa {
+  margin-right: 0.25rem;
+  font-size: smaller;
+}

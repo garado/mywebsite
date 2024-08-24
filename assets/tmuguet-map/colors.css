@@ -1,0 +1,25 @@
+body {
+  color: #001B0B;
+  background-color: #F97F51;
+}
+
+a,
+button.btn {
+  color: #204225;
+  transition-duration: 0.5s;
+  text-decoration: underline dotted #204225 1px;
+}
+
+a:hover, button.btn:hover {
+  color: #008000;
+  transition-duration: 0.1s;
+  text-decoration: underline dotted #008000 1px;
+}
+
+.c4-izmir {
+  --primary-color: #113106;
+}
+
+.fancybox-progress {
+  background: #008000;
+}

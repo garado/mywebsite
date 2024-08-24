@@ -1,0 +1,32 @@
+{{ $linkToCover := false }}
+{{ $featured_images := .Param "images" }}
+{{ if $featured_images }}
+    {{ $page := partial "getdefaultlangpage.html" . }}
+    {{ $includeOriginalImage := default true ($page.Param "includeOriginalImage") }}
+    {{ $largeImageSize := default "2000x" ($page.Param "largeImageSize") }}
+
+    {{ $img := $page.Resources.GetMatch (index $featured_images 0) }}
+    {{ if $img }}
+        {{ if not $includeOriginalImage }}
+            {{ $img = $img.Resize $largeImageSize }}
+        {{ end }}
+        {{ $linkToCover = $img.Permalink }}
+    {{ end }}
+
+    {{ if not $linkToCover }}
+        {{ $headlessBundle := partial "featureimage/shared.html" . }}
+        {{ with .Site.GetPage $headlessBundle }}
+            {{ $img := .Resources.GetMatch (index $featured_images 0) }}
+            {{ if $img }}
+                {{ if not $includeOriginalImage }}
+                    {{ $img = $img.Resize $largeImageSize }}
+                {{ end }}
+                {{ $linkToCover = $img.Permalink }}
+            {{ end }}
+        {{ end }}
+    {{ end }}
+{{ end }}
+{{ if not $linkToCover }}
+    {{ warnf "Could not find featured image for %s (%s)" .RelPermalink .Kind}}
+{{ end }}
+{{ return $linkToCover }}

@@ -1,0 +1,23 @@
+{{ $pages := false }}
+{{ if eq .Kind "page" }}
+    {{ $pages = slice . }}
+{{ else if eq .Kind "term" }}
+    {{ $pages = .Pages }}
+{{ else if eq .Kind "taxonomy" }}
+    {{ $pages = (sort .Pages "Title") }}
+{{ else if eq .Kind "section" }}
+    {{ $pages = .Pages }}
+{{ else if eq .Kind "home" }}
+    {{ $pages = where .Site.RegularPages "Section" "!=" "" }}
+{{ end }}
+
+{{ if not $pages }}
+    {{ $pages = site.RegularPages }}
+{{ end }}
+
+{{ if not $pages }}
+    {{ $pages = .Sites.First.RegularPages }}
+    {{ warnf "Could not find leaf pages for %s (%s), defaulting to %s" .RelPermalink .Kind $pages }}
+{{ end }}
+
+{{ return $pages }}
