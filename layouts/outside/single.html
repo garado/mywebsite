@@ -52,11 +52,13 @@ $(document).ready(function () {
     {{ partial "collapsible-menu.html" (dict "type" "toc" "context" . "enable" $enable_collapsible_toc) }}
 {{ end }}
 
+<h1> {{ .Title }} </h1>
+
+{{ partial "map/single.html" . }}
+
 {{ if .Content }}
     <div class="content-margin">
         {{- partial "content.html" (dict "ctx" . "content" .Content) -}}
     </div>
 {{ end }}
-
-{{ partial "map/single.html" . }}
 {{ end }}
