@@ -2,11 +2,11 @@ var Promise = window.Promise || JSZip.external.Promise;
 var map = null;
 
 var colorMap = {
-  'red': '#D63E2A',
-  'orange': '#F59630',
-  'green': '#72B026',
-  'blue': '#38AADD',
-  'purple': '#D252B9',
+  'red': '#bf616a',
+  'orange': '#d08770',
+  'green': '#a3be8c',
+  'blue': '#5e81ac',
+  'purple': '#b48ead',
   'darkred': '#A23336',
   'darkblue': '#0067A3',
   'darkgreen': '#728224',
@@ -14,9 +14,9 @@ var colorMap = {
   'cadetblue': '#436978',
   'lightred': '#FF8E7F',
   'beige': '#FFCB92',
-  'lightgreen': '#BBF970',
-  'lightblue': '#8ADAFF',
-  'pink': '#FF91EA',
+  'lightgreen': '#728224',
+  'lightblue': '#88c0d0',
+  'orchid': '#b5b9dc',
   'white': '#FBFBFB',
   'lightgray': '#A3A3A3',
   'gray': '#575757',
@@ -32,9 +32,9 @@ var colors = [
   'darkblue',
   'darkpurple',
   'lightblue',
-  'lightgreen',
+  'darkgreen',
   'beige',
-  'pink',
+  'orchid',
   'lightred'
 ];
 
@@ -57,12 +57,11 @@ function initMap() {
   if ($("#mapid").length === 0) return;
 
   map = L.map('mapid');
+
   L.tileLayer(
     'https://tile.thunderforest.com/atlas/{z}/{x}/{y}{r}.png?apikey=bcecc6dc7a9a46cca6d1eff04dd595cf',
     {
       maxZoom: 18,
-      attribution:
-        'Maps © <a href="http://www.thunderforest.com">Thunderforest</a>, Data © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap wat contributors</a>',
     }
   ).addTo(map);
 }
