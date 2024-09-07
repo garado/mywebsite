@@ -1,3 +1,3 @@
 ---
-title: Bay Point to Big Break Regional Shoreline (via Delta de Anza Regional Trail)
+title: Delta de Anza Regional Trail (Bay Point to Big Break)
 ---
