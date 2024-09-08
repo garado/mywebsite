@@ -1,5 +1,5 @@
 ---
-title: Lands End
+title: Land's End
 date: 2024-04-25
 ---
 
