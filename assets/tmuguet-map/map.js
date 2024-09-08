@@ -138,7 +138,7 @@ function addMarker(latlng, idx) {
   var marker = L.marker(latlng, {
     draggable: false, opacity: 0.5, icon: iconDefault
   }).on('click', function () {
-    $('.split-grid a').eq(idx).trigger('click');
+    $('.justified-gallery .split-grid img').eq(idx).trigger('click');
   }).addTo(map);
   addBounds(latlng.toBounds(100));
 
