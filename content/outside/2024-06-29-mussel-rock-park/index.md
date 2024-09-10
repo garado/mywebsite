@@ -1,5 +1,5 @@
 ---
-title: Mussel Rock Park
+title: Mussel Rock Trail
 date: 2024-06-29
 ---
 

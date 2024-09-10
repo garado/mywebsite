@@ -1,5 +1,5 @@
 ---
-title: Vargas Plateau
+title: Vargas Plateau Regional Park
 date: 2024-04-25
 ---
 

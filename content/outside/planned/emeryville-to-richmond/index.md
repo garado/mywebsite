@@ -1,3 +1,0 @@
----
-title: Emeryville to Richmond
----

@@ -1,5 +1,5 @@
 ---
-title: Manoa Falls
+title: Manoa Falls Trail
 date: 2019-09-04
 ---
 

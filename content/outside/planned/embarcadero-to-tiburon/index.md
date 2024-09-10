@@ -1,3 +1,0 @@
----
-title: Embarcadero to Tiburon
----

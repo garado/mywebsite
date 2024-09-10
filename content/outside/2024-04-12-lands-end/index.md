@@ -1,5 +1,5 @@
 ---
-title: Land's End
+title: Golden Gate Park to Land's End
 date: 2024-04-25
 ---
 
