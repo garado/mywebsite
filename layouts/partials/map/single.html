@@ -12,7 +12,7 @@
 
 {{ if or $hasTracks $hasGeotaggedPhotos }}
   {{ $map2gpx := (default "en" ($.Site.Params.map2gpx)) }}
-  {{ $domain := "map2gpx.eu" }}
+  {{ $domain := "gpx.studio/app" }}
 
   <div id="mapid" style="width: 100%; height: 50vh;" class="mb-1"></div>
   {{ $page := . }}
@@ -41,7 +41,7 @@
         var desc_{{ printf "track_%s" $varname | safeJS }} = '<strong>{{ .Name }}</strong><br>'
           + '<a href="{{ .Permalink }}"><i class="fa fa-map-signs fa-fw"></i> Download GPX file </a><br>'
           {{ if $map2gpx }}
-          + '<a href="https://{{ $domain }}?{{ querify "url" .Permalink | safeURL }}"><i class="fa fa-map fa-fw"></i> Open GPX in map2gpx </a>'
+          + '<a href="https://{{ $domain }}?{{ querify "files" .Permalink | safeURL }}"><i class="fa fa-map fa-fw"></i> Open GPX in gpx.studio </a>'
           {{ end }};
 
         tracks.push([
