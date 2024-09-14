@@ -41,7 +41,11 @@
         var desc_{{ printf "track_%s" $varname | safeJS }} = '<strong>{{ .Name }}</strong><br>'
           + '<a href="{{ .Permalink }}"><i class="fa fa-map-signs fa-fw"></i> Download GPX file </a><br>'
           {{ if $map2gpx }}
-          + '<a href="https://{{ $domain }}?{{ querify "files" .Permalink | safeURL }}"><i class="fa fa-map fa-fw"></i> Open GPX in gpx.studio </a>'
+            {{/* Some fuckery to get the link to work in gpx.studio */}}
+            {{ $rawQuerify := ((querify "files" .Permalink) | safeURL) }}
+            {{ $gpxQuerify := printf "%s%%22%%5D" $rawQuerify }}
+            {{ $gpxQuerify := replace $gpxQuerify "http" "%5B%22http" }}
+          + '<a href="https://{{ $domain }}?{{ $gpxQuerify }}"><i class="fa fa-map fa-fw"></i> Open GPX in gpx.studio </a>'
           {{ end }};
 
         tracks.push([
