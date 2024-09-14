@@ -1,3 +1,7 @@
+
+// Instantiates Leaflet map and map markers, and connects them to the gpx and 
+// images on the page
+
 var Promise = window.Promise || JSZip.external.Promise;
 var map = null;
 
@@ -24,19 +28,26 @@ var colorMap = {
 };
 
 var colors = [
-  'blue',
-  'green',
-  'orange',
-  'purple',
   'red',
+  'orange',
+  'green',
+  'blue',
+  'purple',
+  'darkred',
   'darkblue',
-  'darkpurple',
-  'lightblue',
   'darkgreen',
+  'darkpurple',
+  'cadetblue',
+  'lightred',
   'beige',
+  'lightgreen',
+  'lightblue',
   'orchid',
-  'lightred'
-];
+  'white',
+  'lightgray',
+  'gray',
+  'black',
+]
 
 var currentColor = 0;
 var bounds = null;
@@ -46,13 +57,18 @@ var iconDefault = L.AwesomeMarkers.icon({
   markerColor: 'gray',
   prefix: 'fa'
 });
+
 var iconSelected = L.AwesomeMarkers.icon({
   icon: 'camera',
   markerColor: 'purple',
   prefix: 'fa'
 });
+
 var iconsMap = {};
 
+// Instantiate map 
+// This is tmuguet's API key until I figure out how to implement secrets
+// on my public site repo and I can use my own
 function initMap() {
   if ($("#mapid").length === 0) return;
 
@@ -71,6 +87,7 @@ function nextColor() {
   return currentColor;
 }
 
+// Draw route from GPX
 function showTrack(track, color) {
   var start = null;
   var end = null;
@@ -88,7 +105,7 @@ function showTrack(track, color) {
   var layers = line.getLayers();
   for (let i = 0; i < layers.length; i += 1) {
     if (layers[i] instanceof L.Polyline && layers[i].feature.geometry.type === 'LineString') {
-      layers[i].setStyle({ weight: 5, color: colorMap[color], opacity: 0.75 });
+      layers[i].setStyle({ weight: 5, color: colorMap[color], opacity: 0.7 });
       layers[i].addTo(featuregroup);
 
       var latlngs = layers[i].getLatLngs();
@@ -135,13 +152,18 @@ function addBounds(o) {
 }
 
 function addMarker(latlng, idx) {
+  // Create location marker for each image, and open the image
+  // when marker is clicked
   var marker = L.marker(latlng, {
     draggable: false, opacity: 0.5, icon: iconDefault
   }).on('click', function () {
     $('.justified-gallery .split-grid img').eq(idx).trigger('click');
   }).addTo(map);
-  addBounds(latlng.toBounds(100));
 
+  addBounds(latlng.toBounds(50));
+
+  // When image is hovered over, move the map view to the image's 
+  // associated marker
   $('.split-grid a').eq(idx).hover(function () {
     map.flyTo(marker.getLatLng());
     marker.setOpacity(1).setIcon(iconSelected);
@@ -152,6 +174,7 @@ function addMarker(latlng, idx) {
   return marker;
 }
 
+// Called once per page within the section.
 function add(tracks, markers, index) {
   var b = null;
   $.each(tracks, function (i, track) {
@@ -165,17 +188,25 @@ function add(tracks, markers, index) {
       b = (b === null) ? featuregroupbounds : b.extend(featuregroupbounds);
     }
   });
+
   $.each(markers, function (i, marker) {
     var m = addMarker(marker[0], marker[1]);
     if (marker.length > 2) m.bindPopup(marker[2]);
   });
 
-  if (index !== undefined && tracks.length > 0) {
-    $('.split-grid a').eq(index).hover(function () {
-      map.flyTo(b.getCenter());
+  // This meant for the parent page
+  // If you hover over the track page link, the map view will move to the track
+  // If there is no track (e.g. there's only pictures), move to the first marker
+  if (index !== undefined) {
+    $('.list-layout li a').eq(index).hover(function() {
+      if (tracks.length > 0) {
+        map.flyToBounds(b)
+      } else if (markers.length > 0) {
+        map.flyTo(markers[0][0], 10);
+      }
     }, function () {
-      if (bounds) map.flyToBounds(bounds);
     });
+
   }
 }
 
