@@ -1,3 +1,3 @@
 ---
-title: Richmond to Sausalito
+title: "Bay Trail: Richmond to Sausalito"
 ---
