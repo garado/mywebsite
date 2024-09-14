@@ -21,10 +21,8 @@ var colorMap = {
   'lightgreen': '#728224',
   'lightblue': '#88c0d0',
   'orchid': '#b5b9dc',
-  'white': '#FBFBFB',
   'lightgray': '#A3A3A3',
   'gray': '#575757',
-  'black': '#303030'
 };
 
 var colors = [
@@ -43,10 +41,8 @@ var colors = [
   'lightgreen',
   'lightblue',
   'orchid',
-  'white',
   'lightgray',
   'gray',
-  'black',
 ]
 
 var currentColor = 0;
