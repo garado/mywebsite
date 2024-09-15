@@ -1,5 +1,5 @@
 ---
-title: Mission Creek Trail
+title: "Lake Elizabeth and Mission Creek Trail"
 date: 2024-07-28
 ---
 
