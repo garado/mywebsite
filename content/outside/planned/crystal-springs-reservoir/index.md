@@ -1,5 +1,4 @@
 ---
 title: Crystal Springs Regional Trail
+activity: bike
 ---
-
-Includes the San Andreas, Sawyer Camp, and Crystal Springs segments.

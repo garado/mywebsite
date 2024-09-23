@@ -1,6 +1,7 @@
 ---
 title: "Delta de Anza Regional Trail: Bay Point to Big Break"
 date: 2024-09-21
+activity: bike
 ---
 
 {{< gallery

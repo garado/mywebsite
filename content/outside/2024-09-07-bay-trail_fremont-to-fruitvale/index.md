@@ -1,6 +1,7 @@
 ---
 title: "Bay Trail: Fremont to Fruitvale"
 date: 2024-09-07
+activity: bike
 ---
 
 {{< gallery

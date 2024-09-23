@@ -1,6 +1,7 @@
 ---
 title: "Iron Horse Regional Trail"
 date: 2024-09-14
+activity: bike
 ---
 
 {{< gallery

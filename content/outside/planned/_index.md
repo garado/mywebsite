@@ -1,7 +1,7 @@
 ---
 title: Planned
-group_by_year: false
 show_date: false
+group_by_year: false
 ---
 
-# Planned
+# Planned hikes and bikes
