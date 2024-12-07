@@ -17,12 +17,6 @@
   weight = 30
 
 [[navbar]]
-  identifier = "now"
-  name = "Now"
-  url = "/now"
-  weight = 40
-
-[[navbar]]
   identifier = "outside"
   name = "Outside"
   url = "/outside"

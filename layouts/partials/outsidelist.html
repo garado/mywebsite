@@ -13,15 +13,7 @@
                 {{- .Title -}}
             </a>
 
-            {{- if isset .Params "activity" -}}
-
-            {{ if (eq .Params.activity "bike") }}
-              <i class="fa fa-bicycle"></i>
-            {{ else if (eq .Params.activity "hike") }}
-              <i class="fa-solid fa-person-hiking"></i>
-            {{ end }}
-
-            {{- end -}}
+            {{ partial "activity.html" . }}
 
             {{ if $show_date }}
                 <span>
