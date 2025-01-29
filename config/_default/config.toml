@@ -7,6 +7,7 @@ enableEmoji = true
 paginate = 5
 enableGitInfo = true
 map2gpx = "en"
+timeout = 60000
 
 [taxonomies]
 category = "categories"
